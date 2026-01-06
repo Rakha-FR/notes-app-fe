@@ -1,5 +1,5 @@
 const CONFIG = {
-    API_BASE_URL: 'http://notes-app:5000/api',
+    API_BASE_URL: 'http://192.168.1.75:5000/api',
     ENDPOINTS: {
         TASKS: '/tasks',
         TASK_BY_ID: (id) => `/tasks/${id}`
