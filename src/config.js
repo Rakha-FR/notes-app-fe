@@ -1,5 +1,5 @@
 const CONFIG = {
-    API_BASE_URL: process.env.API_BASE_URL || 'http://localhost:5000/api',
+    API_BASE_URL: 'http://notes-app:5000/api',
     ENDPOINTS: {
         TASKS: '/tasks',
         TASK_BY_ID: (id) => `/tasks/${id}`
