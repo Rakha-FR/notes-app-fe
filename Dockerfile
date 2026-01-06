@@ -2,7 +2,6 @@ FROM nginx:alpine
 
 # Copy nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY nginx-be.conf /etc/nginx/conf.d/be.conf
 
 # Copy frontend files
 COPY ./src /usr/share/nginx/html
