@@ -69,4 +69,36 @@ const TaskAPI = {
             throw error;
         }
     }
+,
+
+    /**
+     * Memperbarui tugas berdasarkan ID
+     * @param {number} taskId - ID tugas yang akan diperbarui
+     * @param {Object} taskData - Data tugas baru (title, description)
+     * @returns {Promise<Object>} Task yang diperbarui
+     */
+    async updateTask(taskId, taskData) {
+        try {
+            const response = await fetch(
+                `${CONFIG.API_BASE_URL}${CONFIG.ENDPOINTS.TASK_BY_ID(taskId)}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(taskData)
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            return result.data;
+        } catch (error) {
+            console.error('Error updating task:', error);
+            throw error;
+        }
+    }
 };

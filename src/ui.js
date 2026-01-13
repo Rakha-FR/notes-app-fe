@@ -20,6 +20,9 @@ const UI = {
         this.elements.successMessage = document.getElementById('successMessage');
         this.elements.emptyState = document.getElementById('emptyState');
         this.elements.refreshBtn = document.getElementById('refreshBtn');
+        this.elements.taskId = document.getElementById('taskId');
+        this.elements.submitBtn = document.getElementById('submitBtn');
+        this.elements.submitBtnText = document.getElementById('submitBtnText');
     },
 
     /**
@@ -97,6 +100,10 @@ const UI = {
                             : ''}
                     </div>
                     <div class="task-actions">
+                        <button class="btn btn-edit" onclick="App.editTask(${task.id})">
+                            <span class="btn-icon">✏️</span>
+                            Edit
+                        </button>
                         <button class="btn btn-delete" onclick="App.deleteTask(${task.id})">
                             <span class="btn-icon">🗑️</span>
                             Hapus
@@ -153,5 +160,27 @@ const UI = {
      */
     clearForm() {
         this.elements.taskForm.reset();
+        if (this.elements.taskId) {
+            this.elements.taskId.value = '';
+        }
+        if (this.elements.submitBtnText) {
+            this.elements.submitBtnText.textContent = 'Tambah Tugas';
+        }
+    },
+
+    /**
+     * Populate form for editing an existing task
+     * @param {Object} task - { id, title, description }
+     */
+    fillFormForEdit(task) {
+        if (!task) return;
+        this.elements.taskId.value = task.id;
+        this.elements.taskForm.querySelector('#title').value = task.title || '';
+        this.elements.taskForm.querySelector('#description').value = task.description || '';
+        if (this.elements.submitBtnText) {
+            this.elements.submitBtnText.textContent = 'Perbarui Tugas';
+        }
+        // focus title
+        this.elements.taskForm.querySelector('#title').focus();
     }
 };

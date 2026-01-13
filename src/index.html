@@ -18,6 +18,7 @@
         <section class="form-section">
             <h2 class="section-title">Buat Tugas Baru</h2>
             <form id="taskForm" class="task-form">
+                <input type="hidden" id="taskId" name="taskId" value="">
                 <div class="form-group">
                     <label for="title">Judul Tugas *</label>
                     <input 
@@ -37,9 +38,9 @@
                         placeholder="Masukkan deskripsi tugas (opsional)..."
                     ></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">
+                <button id="submitBtn" type="submit" class="btn btn-primary">
                     <span class="btn-icon">➕</span>
-                    Tambah Tugas
+                    <span id="submitBtnText">Tambah Tugas</span>
                 </button>
             </form>
         </section>
