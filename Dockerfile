@@ -3,16 +3,14 @@ FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-RUN npm install
+# Copy files
+COPY package.json ./
+COPY . .
 
-# Copy package files
-COPY package.json package-lock.json* ./
+RUN npm install
 
 # Install dependencies
 RUN npm ci
-
-# Copy source code
-COPY . .
 
 # Build React app
 RUN npm run build
