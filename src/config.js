@@ -1,5 +1,5 @@
 const CONFIG = {
-    API_BASE_URL: 'http://192.168.1.75:5000/api',
+    API_BASE_URL: process.env.REACT_APP_API_BASE_URL || 'http://192.168.1.75:5000/api',
     ENDPOINTS: {
         TASKS: '/tasks',
         TASK_BY_ID: (id) => `/tasks/${id}`
@@ -16,3 +16,5 @@ const CONFIG = {
         CONFIRM_DELETE: 'Apakah Anda yakin ingin menghapus tugas ini?'
     }
 };
+
+export default CONFIG;
