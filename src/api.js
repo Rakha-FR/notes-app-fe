@@ -1,3 +1,5 @@
+import CONFIG from './config.js';
+
 const TaskAPI = {
     /**
      * Mengambil semua tugas dari server
@@ -70,3 +72,5 @@ const TaskAPI = {
         }
     }
 };
+
+export default TaskAPI;
