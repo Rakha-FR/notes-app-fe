@@ -22,6 +22,31 @@ const TaskAPI = {
     },
 
     /**
+     * Mengambil tugas berdasarkan ID
+     * @param {number|string} taskId - ID tugas yang dicari
+     * @returns {Promise<Object|null>} Task object atau null jika tidak ditemukan
+     */
+    async getTaskById(taskId) {
+        try {
+            const response = await fetch(`${CONFIG.API_BASE_URL}${CONFIG.ENDPOINTS.TASK_BY_ID(taskId)}`);
+
+            if (response.status === 404) {
+                return null;
+            }
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            return result.data || null;
+        } catch (error) {
+            console.error('Error fetching task by id:', error);
+            throw error;
+        }
+    },
+
+    /**
      * Membuat tugas baru
      * @param {Object} taskData - Data tugas (title, description)
      * @returns {Promise<Object>} Task yang baru dibuat

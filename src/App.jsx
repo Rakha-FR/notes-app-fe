@@ -3,6 +3,7 @@ import CONFIG from './config'
 import TaskAPI from './api'
 import TaskForm from './components/TaskForm'
 import TaskList from './components/TaskList'
+import TaskCard from './components/TaskCard'
 import Message from './components/Message'
 import EditTaskModal from './components/EditTaskModal'
 
@@ -12,6 +13,9 @@ function App() {
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(null)
   const [editingTask, setEditingTask] = useState(null)
+  const [searchId, setSearchId] = useState('')
+  const [searchLoading, setSearchLoading] = useState(false)
+  const [searchedTask, setSearchedTask] = useState(null)
 
   // Load tasks on mount
   useEffect(() => {
@@ -30,6 +34,34 @@ function App() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleSearchById = async (e) => {
+    if (e && e.preventDefault) e.preventDefault()
+    if (!searchId) return
+
+    try {
+      setSearchLoading(true)
+      setError(null)
+      setSearchedTask(null)
+      const result = await TaskAPI.getTaskById(searchId)
+      if (!result) {
+        setError('Tugas dengan ID tersebut tidak ditemukan.')
+      } else {
+        setSearchedTask(result)
+      }
+    } catch (err) {
+      setError(CONFIG.MESSAGES.ERROR_NETWORK)
+      console.error('Search by id error:', err)
+    } finally {
+      setSearchLoading(false)
+    }
+  }
+
+  const handleClearSearch = () => {
+    setSearchId('')
+    setSearchedTask(null)
+    setError(null)
   }
 
   const handleCreateTask = async (taskData) => {
@@ -92,10 +124,28 @@ function App() {
       <section className="tasks-section">
         <div className="tasks-header">
           <h2 className="section-title">Daftar Tugas</h2>
-          <button className="btn btn-secondary" onClick={loadTasks}>
-            <span className="btn-icon">🔄</span>
-            Refresh
-          </button>
+          <div className="header-actions">
+            <button className="btn btn-secondary" onClick={loadTasks}>
+              <span className="btn-icon">🔄</span>
+              Refresh
+            </button>
+
+            <form className="search-form" onSubmit={handleSearchById}>
+              <input
+                className="search-input"
+                type="text"
+                placeholder="Cari tugas berdasarkan ID"
+                value={searchId}
+                onChange={(e) => setSearchId(e.target.value)}
+              />
+              <button className="btn btn-primary" type="submit">
+                {searchLoading ? 'Mencari...' : 'Cari'}
+              </button>
+              <button type="button" className="btn btn-secondary" onClick={handleClearSearch}>
+                Clear
+              </button>
+            </form>
+          </div>
         </div>
 
         {error && <Message type="error" message={error} onClose={() => setError(null)} />}
@@ -105,6 +155,11 @@ function App() {
           <div className="loading">
             <div className="spinner"></div>
             <p>Memuat data...</p>
+          </div>
+        ) : searchedTask ? (
+          <div className="search-result">
+            <h3>Hasil Pencarian</h3>
+            <TaskCard task={searchedTask} onEdit={handleEditTask} onDelete={handleDeleteTask} />
           </div>
         ) : tasks.length === 0 ? (
           <div className="empty-state">
