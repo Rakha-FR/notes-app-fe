@@ -1,5 +1,3 @@
-import CONFIG from './config.js';
-
 const TaskAPI = {
     /**
      * Mengambil semua tugas dari server
@@ -49,37 +47,6 @@ const TaskAPI = {
     },
 
     /**
-     * Update tugas berdasarkan ID
-     * @param {number} taskId - ID tugas yang akan diupdate
-     * @param {Object} taskData - Data tugas yang diupdate (title, description)
-     * @returns {Promise<Object>} Task yang sudah diupdate
-     */
-    async updateTask(taskId, taskData) {
-        try {
-            const response = await fetch(
-                `${CONFIG.API_BASE_URL}${CONFIG.ENDPOINTS.TASK_BY_ID(taskId)}`,
-                {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(taskData)
-                }
-            );
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            const result = await response.json();
-            return result.data;
-        } catch (error) {
-            console.error('Error updating task:', error);
-            throw error;
-        }
-    },
-
-    /**
      * Menghapus tugas berdasarkan ID
      * @param {number} taskId - ID tugas yang akan dihapus
      * @returns {Promise<Object>} Task yang dihapus
@@ -103,5 +70,3 @@ const TaskAPI = {
         }
     }
 };
-
-export default TaskAPI;
