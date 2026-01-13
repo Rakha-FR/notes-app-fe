@@ -1,6 +1,6 @@
 import React from 'react'
 
-function TaskCard({ task, onDelete }) {
+function TaskCard({ task, onEdit, onDelete }) {
   const formatDate = (timestamp) => {
     const date = new Date(timestamp)
     const options = {
@@ -22,8 +22,17 @@ function TaskCard({ task, onDelete }) {
         </div>
         <div className="task-actions">
           <button
+            className="btn btn-edit"
+            onClick={() => onEdit(task)}
+            title="Edit tugas"
+          >
+            <span className="btn-icon">✏️</span>
+            Edit
+          </button>
+          <button
             className="btn btn-delete"
             onClick={() => onDelete(task.id)}
+            title="Hapus tugas"
           >
             <span className="btn-icon">🗑️</span>
             Hapus

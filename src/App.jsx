@@ -4,12 +4,14 @@ import TaskAPI from './api'
 import TaskForm from './components/TaskForm'
 import TaskList from './components/TaskList'
 import Message from './components/Message'
+import EditTaskModal from './components/EditTaskModal'
 
 function App() {
   const [tasks, setTasks] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(null)
+  const [editingTask, setEditingTask] = useState(null)
 
   // Load tasks on mount
   useEffect(() => {
@@ -58,6 +60,23 @@ function App() {
     }
   }
 
+  const handleEditTask = (task) => {
+    setEditingTask(task)
+  }
+
+  const handleUpdateTask = async (taskData) => {
+    try {
+      await TaskAPI.updateTask(editingTask.id, taskData)
+      setSuccess(CONFIG.MESSAGES.SUCCESS_UPDATE)
+      setError(null)
+      setEditingTask(null)
+      await loadTasks()
+    } catch (err) {
+      setError(CONFIG.MESSAGES.ERROR_UPDATE)
+      console.error('Update task error:', err)
+    }
+  }
+
   return (
     <div className="container">
       <header className="header">
@@ -94,9 +113,17 @@ function App() {
             <small>Buat tugas baru untuk memulai</small>
           </div>
         ) : (
-          <TaskList tasks={tasks} onDelete={handleDeleteTask} />
+          <TaskList tasks={tasks} onEdit={handleEditTask} onDelete={handleDeleteTask} />
         )}
       </section>
+
+      {editingTask && (
+        <EditTaskModal
+          task={editingTask}
+          onSubmit={handleUpdateTask}
+          onCancel={() => setEditingTask(null)}
+        />
+      )}
     </div>
   )
 }

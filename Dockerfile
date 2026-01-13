@@ -3,6 +3,8 @@ FROM node:18-alpine AS builder
 
 WORKDIR /app
 
+RUN npm install
+
 # Copy package files
 COPY package.json package-lock.json* ./
 

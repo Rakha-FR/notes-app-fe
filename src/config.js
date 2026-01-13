@@ -6,9 +6,11 @@ const CONFIG = {
     },
     MESSAGES: {
         SUCCESS_CREATE: 'Tugas berhasil ditambahkan!',
+        SUCCESS_UPDATE: 'Tugas berhasil diperbarui!',
         SUCCESS_DELETE: 'Tugas berhasil dihapus!',
         ERROR_FETCH: 'Gagal memuat data tugas',
         ERROR_CREATE: 'Gagal membuat tugas baru',
+        ERROR_UPDATE: 'Gagal memperbarui tugas',
         ERROR_DELETE: 'Gagal menghapus tugas',
         ERROR_NETWORK: 'Kesalahan koneksi. Pastikan server backend berjalan.',
         CONFIRM_DELETE: 'Apakah Anda yakin ingin menghapus tugas ini?'
